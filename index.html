@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Roll the dice</title>
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
+    <style> 
+        .ProgramContainer {
+        border-radius: 5px;
+        background-color: #ff1313;
+        padding: 20px;
+        }
+      html {
+        text-align: center;
+        font-size: 20px;
+      }
+      .rNum {
+            height: 50px;
+            width: 50px;
+            background-color: rgb(221, 214, 180);
+            display: inline-block;
+            align-items: center;
+            justify-content: center ;
+            border-style: solid;
+      }
+      h3 {
+        font-family: "Poppins", sans-serif;
+        text-align:center;
+        margin: 10px;
+        font-size: 35px;
+      }
+      .invalid {
+          color:red;
+
+      }
+      input[type=number], select {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        }
+
+        input[type=submit] {
+        width: 100%;
+        background-color: #000000;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
+
+        input[type=submit]:hover {
+        background-color: #ffffff;
+        color:black;
+        }
+        p {
+            font-family: "Poppins", sans-serif;
+            text-align:left;
+            margin: 10px;
+            font-size: 15px;
+            font-weight: bolder;
+        }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+    
+class DiceRoll extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      sides: 6,
+      amt : 1
+    }
+  }
+
+  componentDidMount() {
+   this.setState({ number: this.rolldice(this.state.sides,this.state.amt)})
+  }
+  
+  
+  sidesChange = (event) => {
+    this.setState({ sides: event.target.value})
+  }
+  amtChange = (event) => {
+    this.setState({ amt: event.target.value})
+  }
+  
+  rolldice = (sides,amt) => {
+      
+    var Totaltotal= 0;
+    var array1 = Array.from({ length: amt 
+    },() => Math.floor(Math.random() * sides) + 1 + " ");
+    for(var i = 0; i < amt;i++){
+      Totaltotal += parseInt(array1[i]);
+    }
+    var map1 = array1.map( x => (
+<div class="rNum" id="rnum">{x}</div>) );
+    var SumTotal = array1.reduce((a, b) => a + b,0);
+    console.log(SumTotal);
+    console.log(Totaltotal);
+    document.getElementById("sumsum").innerHTML ="Sum of the Roll: "+ Totaltotal;
+    return map1;
+   
+    
+    
+  } 
+  
+  getInputs = () => {
+    if( this.state.sides < 2 || this.state.amt < 1){
+      var x = document.getElementById("rnum");
+      var y = document.getElementById("invalid");
+      const sidesTemp = this.state.sides
+      const amtTemp = this.state.amt
+      
+    } else {
+      this.setState({
+          
+        number: this.rolldice(this.state.sides,this.state.amt)
+        
+
+      })
+    }
+  }
+  
+  render() {
+    return (
+      <div class="ProgramContainer">
+        <div id="title"><h3>DICE ROLLERZ</h3></div>
+        
+        
+        <div class="invalid" id="invalid"><p></p></div>
+        <div id="inputCC">
+          <div id="sidesandamt">
+          <p>Sides Per Die:</p>
+            <input id="sides" min="2" sides="9999999999" type="number" value={ this.state.sides } onChange={this.sidesChange} />
+            <br></br>
+            <p>Amount of Dice:</p>
+            <input id="amt" min="1" sides="9999999999" type="number" value={ this.state.amt } onChange={this.amtChange} />
+            <br></br>
+            <input id="dicerollbutton" type="submit" value="Dice roll" onClick={ this.getInputs }/>
+            <div><p id="sumsum" class = "sumsum"> The sum of the roll: </p></div>
+            <div ><h3>{ this.state.number }</h3></div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
+
+ReactDOM.render(
+  <DiceRoll
+ />,
+  document.getElementById('root')
+);
+    </script>
+  </body>
+</html>
